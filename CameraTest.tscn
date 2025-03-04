@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://bx7wqi3arpld6"]
+
+[ext_resource type="Script" path="res://Character.gd" id="2_2dkp0"]
+[ext_resource type="Script" path="res://Camera2DMap.gd" id="2_myag5"]
+[ext_resource type="Texture2D" uid="uid://dnen571tf55ia" path="res://icon.svg" id="2_wq7ub"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_noqqt"]
+
+[sub_resource type="Gradient" id="Gradient_r2x38"]
+offsets = PackedFloat32Array(0, 0.214286, 0.492857, 0.7, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0, 0, 0, 0, 0.2, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ces26"]
+gradient = SubResource("Gradient_r2x38")
+width = 512
+
+[sub_resource type="Gradient" id="Gradient_7r6v6"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_eu3i2"]
+gradient = SubResource("Gradient_7r6v6")
+width = 1024
+height = 256
+fill_from = Vector2(0.446078, 0.627451)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tevvm"]
+radius = 63.0079
+
+[node name="CameraTest" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_noqqt")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(-2, 0)
+scale = Vector2(18.5156, 1)
+texture = ExtResource("2_wq7ub")
+
+[node name="Camera2DMap" type="VisibleOnScreenNotifier2D" parent="." node_paths=PackedStringArray("camera_target")]
+position = Vector2(124, -281)
+scale = Vector2(2.00586, 320)
+rect = Rect2(0, 0, 512, 1)
+script = ExtResource("2_myag5")
+camera_target = NodePath("../CharacterBody2D/MapCamera2D")
+map_properties = 4
+x_offset_range = Vector2(-100, 100)
+y_offset_range = Vector2(-100, 100)
+texture_map = SubResource("GradientTexture1D_ces26")
+
+[node name="Camera2DMap2" type="VisibleOnScreenNotifier2D" parent="." node_paths=PackedStringArray("camera_target")]
+position = Vector2(-1169, -281)
+scale = Vector2(1, 1.17578)
+rect = Rect2(0, 0, 1024, 256)
+script = ExtResource("2_myag5")
+camera_target = NodePath("../CharacterBody2D/MapCamera2D")
+map_properties = 3
+x_offset_range = Vector2(-300, 300)
+y_offset_range = Vector2(-100, 100)
+texture_map = SubResource("GradientTexture2D_eu3i2")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("2_2dkp0")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+texture = ExtResource("2_wq7ub")
+
+[node name="MapCamera2D" type="Camera2D" parent="CharacterBody2D"]
+ignore_rotation = false
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CircleShape2D_tevvm")
